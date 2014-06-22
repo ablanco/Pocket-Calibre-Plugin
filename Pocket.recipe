@@ -33,8 +33,8 @@ class Pocket(BasicNewsRecipe):
 
     # Settings people change
     max_articles_per_feed = 50
-    minimum_articles = 10
-    mark_as_read_after_dl = True  # Set this to False for testing
+    minimum_articles = 1
+    mark_as_read_after_dl = False  # Set this to False for testing
     sort_method = 'oldest'  # MUST be either 'oldest' or 'newest'
     # To filter by tag this needs to be a single tag in quotes; IE 'calibre'
     only_pull_tag = None
