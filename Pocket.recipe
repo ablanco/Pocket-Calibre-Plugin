@@ -31,15 +31,15 @@ class Pocket(BasicNewsRecipe):
     publisher = 'getpocket.com'
     category = 'news, custom'
 
-    #Settings people change
+    # Settings people change
     max_articles_per_feed = 50
-    minimum_articles      = 10
+    minimum_articles = 10
     mark_as_read_after_dl = True  # Set this to False for testing
-    sort_method           = 'oldest'  # MUST be either 'oldest' or 'newest'
+    sort_method = 'oldest'  # MUST be either 'oldest' or 'newest'
     # To filter by tag this needs to be a single tag in quotes; IE 'calibre'
-    only_pull_tag         = None
+    only_pull_tag = None
 
-    #You don't want to change anything under
+    # You don't want to change anything under
     no_stylesheets = True
     use_embedded_content = False
     needs_subscription = True
@@ -58,10 +58,11 @@ class Pocket(BasicNewsRecipe):
         prevent User-Agent checks Pocket api requires username and password so
         fail loudly if it's missing from the config.
         """
-        br = BasicNewsRecipe.get_browser(self,
-                user_agent='Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_4; \
-                        en-us) AppleWebKit/533.19.4 (KHTML, like Gecko) \
-                        Version/5.0.3 Safari/533.19.4')
+        br = BasicNewsRecipe.get_browser(
+            self, user_agent=('Mozilla/5.0 (Macintosh; U; Intel Mac OS X '
+                              '10_6_4; en-us) AppleWebKit/533.19.4 (KHTML, '
+                              'like Gecko) Version/5.0.3 Safari/533.19.4')
+        )
         if self.username is not None and self.password is not None:
             br.open(self.legacy_login_url)
             br.select_form(nr=0)
@@ -117,13 +118,13 @@ class Pocket(BasicNewsRecipe):
 
         for pocket_article in pocket_feed.iteritems():
             self.articles.append({
-                'item_id':      pocket_article[0],
-                'title':        pocket_article[1]['resolved_title'],
-                'date':         pocket_article[1]['time_updated'],
-                'url':          u'{0}/a/read/{1}'.format(self.index_url, pocket_article[0]),
-                'real_url':     pocket_article[1]['resolved_url'],
-                'description':  pocket_article[1]['excerpt'],
-                'sort':         pocket_article[1]['sort_id']
+                'item_id': pocket_article[0],
+                'title': pocket_article[1]['resolved_title'],
+                'date': pocket_article[1]['time_updated'],
+                'url': u'{0}/a/read/{1}'.format(self.index_url, pocket_article[0]),
+                'real_url': pocket_article[1]['resolved_url'],
+                'description': pocket_article[1]['excerpt'],
+                'sort': pocket_article[1]['sort_id']
             })
         self.articles = sorted(self.articles, key=operator.itemgetter('sort'))
         return [("My Pocket Articles for {0}".format(strftime('[%I:%M %p]')), self.articles)]
@@ -177,7 +178,7 @@ class Pocket(BasicNewsRecipe):
             tf.write(template.safe_substitute(
                 title=article['title'],
                 body=body
-                ))
+            ))
         return tf.name
 
     def mark_as_read(self, mark_list):
@@ -194,7 +195,7 @@ class Pocket(BasicNewsRecipe):
         )
         try:
             request = urllib2.Request(mark_read_url)
-            response = urllib2.urlopen(request)
+            urllib2.urlopen(request)
         except urllib2.HTTPError as e:
             self.log.exception('Pocket returned an error while archiving articles: {0}'.format(e))
             return []
